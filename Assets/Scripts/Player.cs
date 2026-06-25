@@ -1,17 +1,69 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    [field: SerializeField] private Transform MousePoint { get; set; }
+    [SerializeField] private Transform mousePoint;
+    [SerializeField] private float moveSpeed = 5f;
+
+    [SerializeField] private Animator animator;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+
+    private Rigidbody2D rb;
+    private Vector2 moveInput;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
 
     private void Update()
     {
-        Vector3 targetPosition = MousePoint.position;
-        Vector3 direction = (targetPosition - transform.position).normalized;
-        transform.up = direction;
+        ReadMoveInput();
+        LookAtMouse();
 
-    // TODO: mousepoint 따라서 8방향 회전하도록 sprite 설정
+        animator.SetBool("IsMoving", moveInput.sqrMagnitude > 0.01f);
     }
 
     // mousePoint 클릭 좌표를 받아와서 Bullet 생성(생성할때 좌표넘겨주면 그 좌표로 이동하는 bullet 생성)
+
+    private void FixedUpdate()
+    {
+        rb.MovePosition(rb.position + moveInput * moveSpeed * Time.fixedDeltaTime);
+    }
+
+    private void ReadMoveInput()
+    {
+        moveInput = Vector2.zero;
+
+        if (Keyboard.current.wKey.isPressed) moveInput.y += 1f;
+        if (Keyboard.current.sKey.isPressed) moveInput.y -= 1f;
+        if (Keyboard.current.dKey.isPressed) moveInput.x += 1f;
+        if (Keyboard.current.aKey.isPressed) moveInput.x -= 1f;
+
+        moveInput = moveInput.normalized;
+    }
+
+    private void LookAtMouse()
+    {
+        if (mousePoint == null) return;
+
+        Vector2 direction = mousePoint.position - transform.position;
+
+        if (direction.sqrMagnitude <= 0.001f) return;
+
+        SetLookAnimation(direction.normalized);
+    }
+
+    private void SetLookAnimation(Vector2 direction)
+    {
+        bool shouldFlip = direction.x < 0f;
+        spriteRenderer.flipX = shouldFlip;
+
+        float animationX = Mathf.Abs(direction.x);
+        float animationY = direction.y;
+
+        animator.SetFloat("LookX", animationX);
+        animator.SetFloat("LookY", animationY);
+    }
 }
