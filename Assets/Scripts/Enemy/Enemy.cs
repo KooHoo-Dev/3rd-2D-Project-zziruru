@@ -11,14 +11,29 @@ public class Enemy : MonoBehaviour
 
     private Animator Animator { get; set; }
 
+    [SerializeField] private int maxHp = 3;
+    private int currentHp;
+
     private void Awake()
     {
         Animator = GetComponentInChildren<Animator>();
     }
 
-    void Start()
+    private void Start()
     {
-        
+        currentHp = maxHp;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHp -= damage;
+
+        if (currentHp <= 0) Die();
+    }
+
+    private void Die()
+    {
+        Destroy(gameObject);
     }
 
     // Update is called once per frame

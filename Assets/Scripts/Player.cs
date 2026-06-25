@@ -9,8 +9,13 @@ public class Player : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private SpriteRenderer spriteRenderer;
 
+    [SerializeField] private Bullet bulletPrefab;
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private float attackCooldown = 0.3f;
+
     private Rigidbody2D rb;
     private Vector2 moveInput;
+    private float lastAttackTime;
 
     private void Awake()
     {
@@ -23,6 +28,28 @@ public class Player : MonoBehaviour
         LookAtMouse();
 
         animator.SetBool("IsMoving", moveInput.sqrMagnitude > 0.01f);
+
+        Shoot();
+    }
+
+    private void Shoot()
+    {
+        if (!Mouse.current.leftButton.wasPressedThisFrame) return;
+
+        if (Time.time < lastAttackTime + attackCooldown) return;
+
+        if (bulletPrefab == null || firePoint == null || mousePoint == null) return;
+
+        Vector2 shootDirection = mousePoint.position - firePoint.position;
+
+        if (shootDirection.sqrMagnitude <= 0.001f) return;
+
+        Bullet bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+        bullet.Initialize(shootDirection);
+
+        animator.SetTrigger("Attack");
+
+        lastAttackTime = Time.time;
     }
 
     // mousePoint 클릭 좌표를 받아와서 Bullet 생성(생성할때 좌표넘겨주면 그 좌표로 이동하는 bullet 생성)

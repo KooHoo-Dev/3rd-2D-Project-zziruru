@@ -115,8 +115,8 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: MovementX
     m_Mirror: 0
-  m_BlendParameter: movementX
-  m_BlendParameterY: movementY
+  m_BlendParameter: LookX
+  m_BlendParameterY: LookY
   m_MinThreshold: 0
   m_MaxThreshold: 1
   m_UseAutomaticThresholds: 1
@@ -162,8 +162,8 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: MovementX
     m_Mirror: 0
-  m_BlendParameter: movementX
-  m_BlendParameterY: movementY
+  m_BlendParameter: LookX
+  m_BlendParameterY: LookY
   m_MinThreshold: 0
   m_MaxThreshold: 1
   m_UseAutomaticThresholds: 1
@@ -178,14 +178,20 @@ AnimatorController:
   m_Name: Shark
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: movementX
+  - m_Name: LookX
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: movementY
+  - m_Name: LookY
     m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: IsMoving
+    m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -326,8 +332,8 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: MovementX
     m_Mirror: 0
-  m_BlendParameter: movementX
-  m_BlendParameterY: movementY
+  m_BlendParameter: LookX
+  m_BlendParameterY: LookY
   m_MinThreshold: 0
   m_MaxThreshold: 1
   m_UseAutomaticThresholds: 1
@@ -373,8 +379,8 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: MovementX
     m_Mirror: 0
-  m_BlendParameter: movementX
-  m_BlendParameterY: movementY
+  m_BlendParameter: LookX
+  m_BlendParameterY: LookY
   m_MinThreshold: 0
   m_MaxThreshold: 1
   m_UseAutomaticThresholds: 1
