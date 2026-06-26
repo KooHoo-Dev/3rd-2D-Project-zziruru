@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private Transform mousePoint;
+    [SerializeField] private GameObject mousePoint;
     [SerializeField] private float moveSpeed = 5f;
 
     [SerializeField] private Animator animator;
@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     private Vector2 moveInput;
     private float lastAttackTime;
 
+    private bool canControl = true;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -24,6 +26,8 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (!canControl) return;
+
         ReadMoveInput();
         LookAtMouse();
 
@@ -40,7 +44,7 @@ public class Player : MonoBehaviour
 
         if (bulletPrefab == null || firePoint == null || mousePoint == null) return;
 
-        Vector2 shootDirection = mousePoint.position - firePoint.position;
+        Vector2 shootDirection = mousePoint.transform.position - firePoint.position;
 
         if (shootDirection.sqrMagnitude <= 0.001f) return;
 
@@ -52,10 +56,9 @@ public class Player : MonoBehaviour
         lastAttackTime = Time.time;
     }
 
-    // mousePoint 클릭 좌표를 받아와서 Bullet 생성(생성할때 좌표넘겨주면 그 좌표로 이동하는 bullet 생성)
-
     private void FixedUpdate()
     {
+        if (!canControl) return;
         rb.MovePosition(rb.position + moveInput * moveSpeed * Time.fixedDeltaTime);
     }
 
@@ -75,7 +78,7 @@ public class Player : MonoBehaviour
     {
         if (mousePoint == null) return;
 
-        Vector2 direction = mousePoint.position - transform.position;
+        Vector2 direction = mousePoint.transform.position - transform.position;
 
         if (direction.sqrMagnitude <= 0.001f) return;
 
@@ -92,5 +95,19 @@ public class Player : MonoBehaviour
 
         animator.SetFloat("LookX", animationX);
         animator.SetFloat("LookY", animationY);
+    }
+
+    public void SetControlEnabled(bool enabled)
+    {
+        canControl = enabled;
+
+        if (mousePoint != null)
+            mousePoint.SetActive(enabled);
+        
+        if (!canControl)
+        {
+            moveInput = Vector2.zero;
+            animator.SetBool("IsMoving", false);
+        }
     }
 }
