@@ -7,8 +7,7 @@ public class MySceneManager : MonoBehaviour
     public enum Scene
     {
         Home = 0,
-        Wave1,
-        Wave2,
+        Wave1
     }
 
     private Canvas canvas;
