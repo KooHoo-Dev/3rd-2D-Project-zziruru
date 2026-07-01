@@ -15,9 +15,11 @@ GameObject:
   - component: {fileID: 6348225712768927109}
   - component: {fileID: 6041900504551013084}
   - component: {fileID: 8571123997248727403}
+  - component: {fileID: 2817804609416797913}
+  - component: {fileID: 7240624217722942867}
   m_Layer: 9
   m_Name: Shark
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -263,7 +265,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -271,10 +273,108 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
+--- !u!114 &2817804609416797913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602553771946555303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a77cd5bc1f22f4088984e511cf4c165d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  maxHp: 100
+  maxExp: 100
+--- !u!60 &7240624217722942867
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602553771946555303}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 4, y: 4}
+    newSize: {x: 1.44, y: 1.44}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.5833333, y: 0.6388889}
+      - {x: 0.6111111, y: 0.7083333}
+      - {x: 0.6111111, y: 0.8333333}
+      - {x: 0.44444445, y: 1.0277778}
+      - {x: 0.5416667, y: 1.1944444}
+      - {x: 0.5416667, y: 1.3611112}
+      - {x: 0.6111111, y: 1.75}
+      - {x: 0.6111111, y: 1.9305556}
+      - {x: 0.5833333, y: 2}
+      - {x: 0.2638889, y: 2.2361112}
+      - {x: 0.125, y: 2.2638888}
+      - {x: -0.16666667, y: 2.2638888}
+      - {x: -0.2777778, y: 2.2361112}
+      - {x: -0.4861111, y: 2.0416667}
+      - {x: -0.5555556, y: 1.9027778}
+      - {x: -0.8611111, y: 2}
+      - {x: -0.9861111, y: 1.9861112}
+      - {x: -1.0555556, y: 1.9305556}
+      - {x: -1.0555556, y: 1.8611112}
+      - {x: -1, y: 1.8055556}
+      - {x: -0.6666667, y: 1.4444444}
+      - {x: -0.6805556, y: 1.263889}
+      - {x: -0.5138889, y: 1.0416666}
+      - {x: -0.5555556, y: 0.8194445}
+      - {x: -0.5972222, y: 0.6805556}
+      - {x: -0.6944445, y: 0.875}
+      - {x: -0.8472222, y: 0.9861111}
+      - {x: -0.9027778, y: 0.8333333}
+      - {x: -0.8472222, y: 0.75}
+      - {x: -0.8888889, y: 0.33333334}
+      - {x: -0.7777778, y: 0.2638889}
+      - {x: -0.5416667, y: 0.3888889}
+      - {x: -0.30555555, y: 0.18055555}
+      - {x: 0.3888889, y: 0.18055555}
+      - {x: 0.47222224, y: 0.375}
+      - {x: 0.375, y: 0.45833334}
+      - {x: 0.47222224, y: 0.6388889}
+  m_UseDelaunayMesh: 1
 --- !u!1 &5612356944005519155
 GameObject:
   m_ObjectHideFlags: 0

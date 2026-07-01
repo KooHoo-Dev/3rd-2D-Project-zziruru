@@ -31,5 +31,12 @@ public class MySceneManager : MonoBehaviour
         SceneManager.LoadScene(sceneIndex);
     }
 
-    // TODO: Quit 종료처리
+    public void QuitGame()
+    {
+    #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+    #else
+        Application.Quit();
+    #endif
+    }
 }
