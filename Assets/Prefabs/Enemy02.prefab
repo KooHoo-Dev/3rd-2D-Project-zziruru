@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3828422576482438197}
   - component: {fileID: 6848795494383715792}
   - component: {fileID: 141409674363383090}
+  - component: {fileID: 8133662741036345706}
   m_Layer: 0
   m_Name: Enemy02
   m_TagString: Untagged
@@ -195,6 +196,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   maxHp: 3
+--- !u!114 &8133662741036345706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4986278685467013610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5258f0138388421e928c1cf402da2d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Enemy02Pattern
+  moveSpeed: 2
+  movePoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  enemyBulletPrefab: {fileID: 1603001409758475519, guid: 612cdbb41779a4ddab21723c1c093884, type: 3}
+  firePoint: {fileID: 1220532371435271225}
+  player: {fileID: 0}
+  danceIdleDuration: 1.5
+  danceAttackDuration: 1.2
+  celebrationAttackDuration: 2
 --- !u!1 &6649086644513557403
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,7 +247,7 @@ Transform:
   m_GameObject: {fileID: 6649086644513557403}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.004, y: 0.305, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
