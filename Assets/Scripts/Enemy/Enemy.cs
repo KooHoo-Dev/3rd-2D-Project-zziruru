@@ -4,7 +4,6 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private int maxHp = 3;
-    [SerializeField] private float knockbackDistance = 0.15f;
     private int currentHp;
     private Rigidbody2D rb;
     private HitFeedback hitFeedback;
@@ -16,6 +15,7 @@ public class Enemy : MonoBehaviour
     private float knockbackTimer;
 
     public bool IsKnockbacking => knockbackTimer > 0f;
+    [SerializeField] private int expReward = 20;
 
     private void Awake()
     {
@@ -70,6 +70,10 @@ public class Enemy : MonoBehaviour
 
         if (hitFeedback != null)
             yield return hitFeedback.PlayDeathFade();
+
+        PlayerStats playerStats = FindFirstObjectByType<PlayerStats>();
+        if (playerStats != null)
+            playerStats.AddExp(expReward);
 
         Destroy(gameObject);
     }

@@ -39,8 +39,21 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private GameObject gamePausedPanel;
     [SerializeField] private GameObject clearPanel;
+    [SerializeField] private PlayerStats playerStats;
 
     private bool isPaused;
+
+    private void OnEnable()
+    {
+        if (playerStats != null)
+            playerStats.OnExpFull += HandleExpFull;
+    }
+
+    private void OnDisable()
+    {
+        if (playerStats != null)
+            playerStats.OnExpFull -= HandleExpFull;
+    }
 
     private void Start()
     {
@@ -60,6 +73,26 @@ public class GameManager : MonoBehaviour
     {
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
             TogglePause();
+    }
+
+    private void HandleExpFull()
+    {
+        if (currentState == GameState.Wave1)
+        {
+            ChangeState(GameState.ItemSelect1);
+        }
+        else if (currentState == GameState.Wave2)
+        {
+            ChangeState(GameState.ItemSelect2);
+        }
+        else if (currentState == GameState.Wave3)
+        {
+            ChangeState(GameState.ItemSelect3);
+        }
+        else if (currentState == GameState.Wave4)
+        {
+            ChangeState(GameState.Clear);
+        }
     }
 
     private void TogglePause()
@@ -158,10 +191,11 @@ public class GameManager : MonoBehaviour
         collectedItemCount++;
         Debug.Log($"Goal Item: {collectedItemCount}/{requiredItemCount}");
 
-        if (collectedItemCount >= requiredItemCount)
-        {
-            ChangeState(GameState.ItemSelect1);
-        }
+        // TMP: 임시
+        // if (collectedItemCount >= requiredItemCount)
+        // {
+        //     ChangeState(GameState.ItemSelect1);
+        // }
     }
 
     private void StartWave1()
@@ -287,6 +321,9 @@ public class GameManager : MonoBehaviour
         ItemData selectedItem = currentChoices[index];
 
         ApplyItem(selectedItem);
+
+        if (playerStats != null)
+            playerStats.ResetExp();
 
         itemSelectionPanel.SetActive(false);
 

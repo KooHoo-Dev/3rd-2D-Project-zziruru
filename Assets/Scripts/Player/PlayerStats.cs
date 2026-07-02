@@ -23,12 +23,17 @@ public class PlayerStats : MonoBehaviour
     private bool isDead;
     private bool isInvincible;
 
+    public event Action OnExpFull;
+
+    // 이미 꽉 찼는데 더 채우려고 하는것 방지
+    private bool isExpFull;
+
     private void Awake()
     {
         currentHp = maxHp;
         currentExp = 0;
     }
-    
+
     private void Start()
     {
         OnStatsChanged?.Invoke();
@@ -47,7 +52,7 @@ public class PlayerStats : MonoBehaviour
         {
             isDead = true;
             OnDied?.Invoke();
-        } 
+        }
         else
         {
             StartCoroutine(InvincibleRoutine());
@@ -63,7 +68,22 @@ public class PlayerStats : MonoBehaviour
 
     public void AddExp(int amount)
     {
+        if (isExpFull) return;
+
         currentExp = Mathf.Clamp(currentExp + amount, 0, maxExp);
+        OnStatsChanged?.Invoke();
+
+        if (currentExp >= maxExp)
+        {
+            isExpFull = true;
+            OnExpFull?.Invoke();
+        }
+    }
+
+    public void ResetExp()
+    {
+        currentExp = 0;
+        isExpFull = false;
         OnStatsChanged?.Invoke();
     }
 }
