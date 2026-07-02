@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class Player : MonoBehaviour
 {
@@ -19,14 +20,50 @@ public class Player : MonoBehaviour
 
     private bool canControl = true;
 
+    private PlayerStats playerStats;
+    private bool isDead;
+    private HitFeedback hitFeedback;
+
+    // TODO: knockback 효과 쪽 enemy 랑 공통 분모로 뽑아낼 수 있는지
+    [SerializeField] private float knockbackSpeed = 10f;
+    [SerializeField] private float knockbackDuration = 0.12f;
+
+    private Vector2 knockbackDirection;
+    private float knockbackTimer;
+
+    private bool IsKnockbacking => knockbackTimer > 0f;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerStats = GetComponent<PlayerStats>();
+        hitFeedback = GetComponent<HitFeedback>();
+    }
+
+    private void OnEnable()
+    {
+        if (playerStats != null)
+        {
+            playerStats.OnDamaged += PlayHitFeedback;
+            playerStats.OnDied += Die;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (playerStats != null)
+        {
+            playerStats.OnDied -= Die;
+            playerStats.OnDamaged -= PlayHitFeedback;
+        }
+
     }
 
     private void Update()
     {
         if (!canControl) return;
+        if (isDead) return;
+        if (IsKnockbacking) return;
 
         ReadMoveInput();
         LookAtMouse();
@@ -58,7 +95,17 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isDead) return;
+
+        if (IsKnockbacking)
+        {
+            knockbackTimer -= Time.fixedDeltaTime;
+            rb.MovePosition(rb.position + knockbackDirection * knockbackSpeed * Time.fixedDeltaTime);
+            return;
+        }
+
         if (!canControl) return;
+
         rb.MovePosition(rb.position + moveInput * moveSpeed * Time.fixedDeltaTime);
     }
 
@@ -103,11 +150,47 @@ public class Player : MonoBehaviour
 
         if (mousePoint != null)
             mousePoint.SetActive(enabled);
-        
+
         if (!canControl)
         {
             moveInput = Vector2.zero;
             animator.SetBool("IsMoving", false);
         }
+    }
+
+    private void Die()
+    {
+        if (isDead) return;
+
+        isDead = true;
+        SetControlEnabled(false);
+
+        animator.SetTrigger("Die");
+
+        StartCoroutine(GameOverRoutine());
+    }
+
+    private IEnumerator GameOverRoutine()
+    {
+        yield return new WaitForSeconds(1f);
+        GameManager gameManager = FindFirstObjectByType<GameManager>();
+
+        if (gameManager != null)
+            gameManager.RequestGameOver();
+    }
+
+    private void PlayHitFeedback(Vector2 hitDirection)
+    {
+        if (hitFeedback != null)
+            hitFeedback.PlayHitFlash();
+
+        if (hitDirection.sqrMagnitude > 0.001f)
+        {
+            knockbackDirection = hitDirection.normalized;
+            knockbackTimer = knockbackDuration;
+        }
+
+        moveInput = Vector2.zero;
+        animator.SetBool("IsMoving", false);
     }
 }

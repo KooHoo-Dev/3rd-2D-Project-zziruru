@@ -18,9 +18,11 @@ public class Enemy02Pattern : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator animator;
+    private Enemy enemy;
 
     private void Awake()
     {
+        enemy = GetComponent<Enemy>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
@@ -63,6 +65,12 @@ public class Enemy02Pattern : MonoBehaviour
         Transform targetPoint = movePoints[Random.Range(0, movePoints.Length)];
         while (Vector2.Distance(rb.position, targetPoint.position) > 0.05f)
         {
+            if (enemy != null && enemy.IsKnockbacking)
+            {
+                yield return new WaitForFixedUpdate();
+                continue;
+            }
+
             Vector2 direction = ((Vector2)targetPoint.position - rb.position).normalized;
             PlayWalkAnimation(direction);
             // Vector2 nextPosition = rb.position + direction * moveSpeed * Time.fixedDeltaTime;
@@ -85,7 +93,7 @@ public class Enemy02Pattern : MonoBehaviour
                 PlayAnimation("Enemy02_WalkRight");
             else
                 PlayAnimation("Enemy02_WalkLeft");
-        } 
+        }
         else
         {
             if (direction.y > 0f)
@@ -105,7 +113,7 @@ public class Enemy02Pattern : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     private void FireDanceAttack()

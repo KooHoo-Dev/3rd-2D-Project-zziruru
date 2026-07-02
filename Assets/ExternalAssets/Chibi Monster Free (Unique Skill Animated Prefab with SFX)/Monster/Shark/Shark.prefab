@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 8571123997248727403}
   - component: {fileID: 2817804609416797913}
   - component: {fileID: 7240624217722942867}
+  - component: {fileID: 6956698054547784655}
   m_Layer: 9
   m_Name: Shark
   m_TagString: Player
@@ -375,6 +376,21 @@ PolygonCollider2D:
       - {x: 0.375, y: 0.45833334}
       - {x: 0.47222224, y: 0.6388889}
   m_UseDelaunayMesh: 1
+--- !u!114 &6956698054547784655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602553771946555303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37c4f8e010f7947bca163ba3126823f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFeedback
+  hitColor: {r: 1, g: 1, b: 1, a: 1}
+  flashDuration: 0.08
+  deathFadeDuration: 0.25
 --- !u!1 &5612356944005519155
 GameObject:
   m_ObjectHideFlags: 0

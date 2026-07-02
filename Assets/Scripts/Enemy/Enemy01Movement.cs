@@ -21,9 +21,10 @@ public class Enemy01Movement : MonoBehaviour
 
     private bool isMoving;
     private bool isPanic;
-
+    private Enemy enemy;
     private void Awake()
     {
+        enemy = GetComponent<Enemy>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -46,6 +47,8 @@ public class Enemy01Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (enemy != null && enemy.IsKnockbacking) return;
+
         if (isPanic)
             PanicMove();
         else

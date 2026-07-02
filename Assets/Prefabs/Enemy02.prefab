@@ -12,9 +12,11 @@ GameObject:
   - component: {fileID: 4531195675384246242}
   - component: {fileID: 8044327858710928060}
   - component: {fileID: 3828422576482438197}
-  - component: {fileID: 6848795494383715792}
   - component: {fileID: 141409674363383090}
   - component: {fileID: 8133662741036345706}
+  - component: {fileID: 8798723969708785759}
+  - component: {fileID: 6774871792410433871}
+  - component: {fileID: 7544925906379881600}
   m_Layer: 0
   m_Name: Enemy02
   m_TagString: Untagged
@@ -146,8 +148,77 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!70 &6848795494383715792
-CapsuleCollider2D:
+--- !u!114 &141409674363383090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4986278685467013610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4683a5483e9d094b85ac63ec61db1b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  maxHp: 3
+  knockbackDistance: 0.15
+--- !u!114 &8133662741036345706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4986278685467013610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5258f0138388421e928c1cf402da2d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Enemy02Pattern
+  moveSpeed: 2
+  movePoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  enemyBulletPrefab: {fileID: 1603001409758475519, guid: 612cdbb41779a4ddab21723c1c093884, type: 3}
+  firePoint: {fileID: 1220532371435271225}
+  player: {fileID: 0}
+  danceIdleDuration: 1.5
+  danceAttackDuration: 1.2
+  celebrationAttackDuration: 2
+--- !u!114 &8798723969708785759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4986278685467013610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37c4f8e010f7947bca163ba3126823f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFeedback
+  hitColor: {r: 1, g: 0, b: 0, a: 1}
+  flashDuration: 0.08
+  deathFadeDuration: 0.25
+--- !u!114 &6774871792410433871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4986278685467013610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce3193d627a24428da7d3494e1e3ac7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBodyDamage
+  damage: 10
+  damageInterval: 1
+--- !u!60 &7544925906379881600
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -180,48 +251,45 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.30208334}
-  m_Size: {x: 0.32291666, y: 0.6041667}
-  m_Direction: 0
---- !u!114 &141409674363383090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4986278685467013610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4683a5483e9d094b85ac63ec61db1b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  maxHp: 3
---- !u!114 &8133662741036345706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4986278685467013610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5258f0138388421e928c1cf402da2d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy02Pattern
-  moveSpeed: 2
-  movePoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  enemyBulletPrefab: {fileID: 1603001409758475519, guid: 612cdbb41779a4ddab21723c1c093884, type: 3}
-  firePoint: {fileID: 1220532371435271225}
-  player: {fileID: 0}
-  danceIdleDuration: 1.5
-  danceAttackDuration: 1.2
-  celebrationAttackDuration: 2
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 0.31, y: 0.58}
+    newSize: {x: 0.32291666, y: 0.6041667}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.08398451, y: 0.5827258}
+      - {x: -0.04530321, y: 0.5876883}
+      - {x: -0.06786593, y: 0.5623117}
+      - {x: -0.099168606, y: 0.5352524}
+      - {x: -0.12475716, y: 0.456849}
+      - {x: -0.10623495, y: 0.3704898}
+      - {x: -0.085805304, y: 0.33474967}
+      - {x: -0.15847227, y: 0.22918338}
+      - {x: -0.15679145, y: 0.14244679}
+      - {x: -0.11399574, y: 0.14482233}
+      - {x: -0.09824622, y: 0.19939622}
+      - {x: -0.08966245, y: 0.14464048}
+      - {x: -0.06768524, y: 0.12963316}
+      - {x: -0.06193512, y: -0.005125522}
+      - {x: 0.062186155, y: -0.0076882937}
+      - {x: 0.067117855, y: 0.1321985}
+      - {x: 0.09060075, y: 0.15001784}
+      - {x: 0.09114438, y: 0.19987017}
+      - {x: 0.12168404, y: 0.14869252}
+      - {x: 0.1603195, y: 0.1449604}
+      - {x: 0.16326384, y: 0.21941496}
+      - {x: 0.13427904, y: 0.28482762}
+      - {x: 0.07043863, y: 0.3371986}
+      - {x: 0.10684321, y: 0.3785398}
+      - {x: 0.12047377, y: 0.47621566}
+      - {x: 0.14218612, y: 0.50055426}
+  m_UseDelaunayMesh: 1
 --- !u!1 &6649086644513557403
 GameObject:
   m_ObjectHideFlags: 0

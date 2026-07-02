@@ -2169,12 +2169,12 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 265750459}
+  - {fileID: 903931346}
   - {fileID: 112498124}
   - {fileID: 1188443457}
   - {fileID: 809705850}
   - {fileID: 1323713829}
-  - {fileID: 903931346}
-  - {fileID: 265750459}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2509,6 +2509,18 @@ PrefabInstance:
       propertyPath: mousePoint
       value: 
       objectReference: {fileID: 24502800}
+    - target: {fileID: 6956698054547784655, guid: 0770af5825aa6be4ea4bd3a6292df145, type: 3}
+      propertyPath: hitColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6956698054547784655, guid: 0770af5825aa6be4ea4bd3a6292df145, type: 3}
+      propertyPath: hitColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6956698054547784655, guid: 0770af5825aa6be4ea4bd3a6292df145, type: 3}
+      propertyPath: hitColor.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4808,6 +4820,7 @@ MonoBehaviour:
   itemSelectionPanel: {fileID: 1323713828}
   player: {fileID: 1109714411}
   playerItemController: {fileID: 1109714410}
+  gameOverPanel: {fileID: 1188443456}
 --- !u!1 &1795237131
 GameObject:
   m_ObjectHideFlags: 0

@@ -35,9 +35,14 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private PlayerItemController playerItemController;
 
+    [SerializeField] private GameObject gameOverPanel;
+
     private void Start()
     {
         ChangeState(GameState.Wave1);
+        
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(false);
     }
 
     private void Update()
@@ -171,10 +176,14 @@ public class GameManager : MonoBehaviour
         Debug.Log("Clear");
     }
 
-    public void GameOver()
+    private void GameOver()
     {
         Time.timeScale = 0f;
         player.SetControlEnabled(false);
+
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(true);
+
         Debug.Log("Game Over");
     }
 
@@ -263,5 +272,10 @@ public class GameManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    public void RequestGameOver()
+    {
+        ChangeState(GameState.GameOver);
     }
 }
