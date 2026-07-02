@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Base1
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemId: 1
-  itemName: Base1
-  description: 
-  icon: {fileID: 0}
+  itemName: Monitor
+  description: Throw Monitor to enemies
+  icon: {fileID: 21300000, guid: 264e7301837da5441a9aaf494b1ea253, type: 3}
   phase: 0
   effectType: 2
   value: 1

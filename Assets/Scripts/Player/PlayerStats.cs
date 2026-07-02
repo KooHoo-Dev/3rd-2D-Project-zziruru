@@ -39,6 +39,14 @@ public class PlayerStats : MonoBehaviour
         OnStatsChanged?.Invoke();
     }
 
+    public void Heal(int amount)
+    {
+        if (isDead) return;
+
+        currentHp = Mathf.Clamp(currentHp + amount, 0, maxHp);
+        OnStatsChanged?.Invoke();
+    }
+
     public void TakeDamage(int damage, Vector2 hitDirection)
     {
         if (isDead) return;

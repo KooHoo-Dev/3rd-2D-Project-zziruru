@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Base0
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemId: 0
-  itemName: Base0
-  description: 
-  icon: {fileID: 0}
+  itemName: Keyboard
+  description: A keyboard orbits around you and damages enemies it touches.
+  icon: {fileID: 21300000, guid: 63c7643d235b50a44b316677bf6b3ba0, type: 3}
   phase: 0
   effectType: 1
   value: 1

@@ -8,7 +8,8 @@ public class PlayerItemController : MonoBehaviour
     private readonly HashSet<ItemEffectType> acquiredEffects = new();
     private readonly HashSet<ItemEffectType> activatedSynergies = new();
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] private GameObject keyboardOrbitObject;
+
     void Start()
     {
 
@@ -49,6 +50,24 @@ public class PlayerItemController : MonoBehaviour
     private void ApplyEffect(ItemEffectType effectType, float value)
     {
         Debug.Log($"Apply effect: {effectType}, value: {value}");
+
+        switch (effectType)
+        {
+            case ItemEffectType.Base0:
+                EnableKeyboardOrbit();
+                break;
+        }
+    }
+
+    private void EnableKeyboardOrbit()
+    {
+        if (keyboardOrbitObject == null) return;
+
+        keyboardOrbitObject.SetActive(true);
+
+        KeyboardOrbit keyboardOrbit = keyboardOrbitObject.GetComponent<KeyboardOrbit>();
+        if (keyboardOrbit != null)
+            keyboardOrbit.SetTarget(transform);
     }
 
     public bool HasAcquiredEffect(ItemEffectType effectType)

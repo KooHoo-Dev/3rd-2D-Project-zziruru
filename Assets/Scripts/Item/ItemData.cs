@@ -10,8 +10,8 @@ public enum ItemPhase
 public enum ItemEffectType
 {
     None,
-    Base0,
-    Base1,
+    Base0, // Keyboard
+    Base1, // Monitor
     Base2,
     Base3,
     Base4,

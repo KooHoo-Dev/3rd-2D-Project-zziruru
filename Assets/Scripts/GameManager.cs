@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<ItemData> allItems = new List<ItemData>();
     [SerializeField] private TMP_Text[] itemTitleTexts;
     [SerializeField] private TMP_Text[] itemDescriptionTexts;
+    [SerializeField] private Image[] itemIconImages;
     private List<ItemData> currentChoices = new List<ItemData>();
 
     [SerializeField] private SynergyData[] synergies;
@@ -173,14 +175,20 @@ public class GameManager : MonoBehaviour
         {
             if (candidates.Count == 0) break;
 
-            int randomIndex = Random.Range(0, candidates.Count);
-            ItemData selectedItem = candidates[randomIndex];
+            // 임시
+            // int randomIndex = Random.Range(0, candidates.Count);
+            // ItemData selectedItem = candidates[randomIndex];
+            ItemData selectedItem = candidates[i];
 
             currentChoices.Add(selectedItem);
-            candidates.RemoveAt(randomIndex);
+
+            // 임시
+            candidates.RemoveAt(i);
+            // candidates.RemoveAt(randomIndex);
 
             itemTitleTexts[i].text = selectedItem.itemName;
             itemDescriptionTexts[i].text = selectedItem.description;
+            itemIconImages[i].sprite = selectedItem.icon;
         }
     }
 
