@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -36,17 +37,40 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerItemController playerItemController;
 
     [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private GameObject gamePausedPanel;
+    [SerializeField] private GameObject clearPanel;
+
+    private bool isPaused;
 
     private void Start()
     {
         ChangeState(GameState.Wave1);
-        
+
         if (gameOverPanel != null)
             gameOverPanel.SetActive(false);
+
+        if (gamePausedPanel != null)
+            gamePausedPanel.SetActive(false);
+
+        if (clearPanel != null)
+            clearPanel.SetActive(false);
     }
 
     private void Update()
     {
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+            TogglePause();
+    }
+
+    private void TogglePause()
+    {
+        if (currentState == GameState.GameOver) return;
+        if (currentState == GameState.Clear) return;
+
+        if (isPaused)
+            Resume();
+        else
+            Pause();
     }
 
     private void ChangeState(GameState nextState)
@@ -172,7 +196,16 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0f;
         player.SetControlEnabled(false);
-        
+
+        if (gamePausedPanel != null)
+            gamePausedPanel.SetActive(false);
+
+        if (clearPanel != null)
+        {
+            clearPanel.SetActive(true);
+            clearPanel.transform.SetAsLastSibling();
+        }
+
         Debug.Log("Clear");
     }
 
@@ -182,7 +215,10 @@ public class GameManager : MonoBehaviour
         player.SetControlEnabled(false);
 
         if (gameOverPanel != null)
+        {
             gameOverPanel.SetActive(true);
+            gameOverPanel.transform.SetAsLastSibling();
+        }
 
         Debug.Log("Game Over");
     }
@@ -200,9 +236,28 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    private void Pause()
+    {
+        isPaused = true;
+
+        Time.timeScale = 0f;
+        player.SetControlEnabled(false);
+
+        if (gamePausedPanel != null)
+        {
+            gamePausedPanel.SetActive(true);
+            gamePausedPanel.transform.SetAsLastSibling();
+        }
+    }
     public void Resume()
     {
+        isPaused = false;
 
+        Time.timeScale = 1f;
+        player.SetControlEnabled(true);
+
+        if (gamePausedPanel != null)
+            gamePausedPanel.SetActive(false);
     }
 
     private void OpenItemSelect1()
@@ -277,5 +332,10 @@ public class GameManager : MonoBehaviour
     public void RequestGameOver()
     {
         ChangeState(GameState.GameOver);
+    }
+
+    public void RequestClear()
+    {
+        ChangeState(GameState.Clear);
     }
 }
