@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Base2
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemId: 2
-  itemName: Base2
-  description: 
-  icon: {fileID: 0}
+  itemName: Hollow Pumpkin
+  description: Chasing enemies lose sight of you for a short time.
+  icon: {fileID: 21300000, guid: 739c26742c0d60e4f9f85da9800dbedc, type: 3}
   phase: 0
   effectType: 3
   value: 1

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Base4
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemId: 4
-  itemName: Base4
-  description: 
-  icon: {fileID: 0}
+  itemName: Protein Egg
+  description: Boosts your maximum HP
+  icon: {fileID: 21300000, guid: d0198000dff6bb745890e3faccb10cbd, type: 3}
   phase: 0
   effectType: 5
   value: 1

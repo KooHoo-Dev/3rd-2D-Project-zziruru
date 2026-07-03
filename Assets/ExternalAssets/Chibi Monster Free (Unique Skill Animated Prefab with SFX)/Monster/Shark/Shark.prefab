@@ -254,6 +254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerItemController
   synergies: []
+  keyboardOrbitObject: {fileID: 3438639458954854433}
 --- !u!50 &8571123997248727403
 Rigidbody2D:
   serializedVersion: 5
@@ -441,6 +442,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc1dc6e10529342e99a3479de42f58af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KeyboardOrbit
+  target: {fileID: 1300651968148723891}
+  orbitRadius: 1.2
+  orbitSpeed: 180
+  damage: 1
+  hitCooldown: 0.3
 --- !u!212 &7607548366191169050
 SpriteRenderer:
   serializedVersion: 2

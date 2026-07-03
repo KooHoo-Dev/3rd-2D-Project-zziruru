@@ -3,7 +3,7 @@ using UnityEngine;
 public class Enemy01Spawner : MonoBehaviour
 {
     [SerializeField] private int initialSpawnCount = 6;
-    [SerializeField] private int maxAliveCount = 20;
+    [SerializeField] private int maxAliveCount = 100;
 
     [SerializeField] private GameObject enemy01Prefab;
     [SerializeField] private Transform[] spawnPoints;

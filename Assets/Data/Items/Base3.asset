@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Base3
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemId: 3
-  itemName: Base3
-  description: 
-  icon: {fileID: 0}
+  itemName: Skull Mask
+  description: Some nearby enemies are frightened and move away from you.
+  icon: {fileID: 21300000, guid: c82eb365cc7d94142988f954de0c685c, type: 3}
   phase: 0
   effectType: 4
   value: 1

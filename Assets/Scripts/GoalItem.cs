@@ -4,12 +4,12 @@ public class GoalItem : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.CompareTag("Player")) return;
+        // if (!other.CompareTag("Player")) return;
 
-        GameManager gameManager = FindFirstObjectByType<GameManager>();
+        // GameManager gameManager = FindFirstObjectByType<GameManager>();
 
-        if (gameManager != null) gameManager.CollectGoalItem();
+        // if (gameManager != null) gameManager.CollectGoalItem();
 
-        Destroy(gameObject);
+        // Destroy(gameObject);
     }
 }

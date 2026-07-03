@@ -94,4 +94,11 @@ public class PlayerStats : MonoBehaviour
         isExpFull = false;
         OnStatsChanged?.Invoke();
     }
+
+    public void SetMaxExp(int value)
+    {
+        maxExp = value;
+        currentExp = Mathf.Clamp(currentExp, 0, maxExp);
+        OnStatsChanged?.Invoke();
+    }
 }

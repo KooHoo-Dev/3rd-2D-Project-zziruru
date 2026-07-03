@@ -9,13 +9,8 @@ public class GameManager : MonoBehaviour
 {
     public enum GameState
     {
-        Wave1,
-        ItemSelect1,
-        Wave2,
-        ItemSelect2,
-        Wave3,
-        ItemSelect3,
-        Wave4,
+        Playing,
+        ItemSelect,
         Clear,
         GameOver
     }
@@ -29,9 +24,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SynergyData[] synergies;
     [SerializeField] private GameState currentState;
 
-    private int collectedItemCount;
-    [SerializeField] private int requiredItemCount = 3;
-
     [SerializeField] private GameObject itemSelectionPanel;
 
     [SerializeField] private Player player;
@@ -44,6 +36,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerStats playerStats;
 
     private bool isPaused;
+
+    [SerializeField] private int[] expRequirementsByLevel = { 100, 150, 220, 300 };
+    private int currentLevel = 1;
 
     private void OnEnable()
     {
@@ -59,7 +54,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        ChangeState(GameState.Wave1);
+        currentLevel = 1;
+        SetupCurrentLevelExp();
+        ChangeState(GameState.Playing);
 
         if (gameOverPanel != null)
             gameOverPanel.SetActive(false);
@@ -71,6 +68,14 @@ public class GameManager : MonoBehaviour
             clearPanel.SetActive(false);
     }
 
+    private void SetupCurrentLevelExp()
+    {
+        if (playerStats == null) return;
+
+        int expIndex = Mathf.Clamp(currentLevel - 1, 0, expRequirementsByLevel.Length - 1);
+        playerStats.SetMaxExp(expRequirementsByLevel[expIndex]);
+    }
+
     private void Update()
     {
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
@@ -79,28 +84,14 @@ public class GameManager : MonoBehaviour
 
     private void HandleExpFull()
     {
-        if (currentState == GameState.Wave1)
-        {
-            ChangeState(GameState.ItemSelect1);
-        }
-        else if (currentState == GameState.Wave2)
-        {
-            ChangeState(GameState.ItemSelect2);
-        }
-        else if (currentState == GameState.Wave3)
-        {
-            ChangeState(GameState.ItemSelect3);
-        }
-        else if (currentState == GameState.Wave4)
-        {
-            ChangeState(GameState.Clear);
-        }
+        if (currentState != GameState.Playing) return;
+
+        ChangeState(GameState.ItemSelect);
     }
 
     private void TogglePause()
     {
-        if (currentState == GameState.GameOver) return;
-        if (currentState == GameState.Clear) return;
+        if (!isPaused && currentState != GameState.Playing) return;
 
         if (isPaused)
             Resume();
@@ -114,32 +105,12 @@ public class GameManager : MonoBehaviour
 
         switch (currentState)
         {
-            case GameState.Wave1:
-                StartWave1();
+            case GameState.Playing:
+                StartPlaying();
                 break;
 
-            case GameState.ItemSelect1:
-                OpenItemSelect1();
-                break;
-
-            case GameState.Wave2:
-                StartWave2();
-                break;
-
-            case GameState.ItemSelect2:
-                OpenItemSelect2();
-                break;
-
-            case GameState.Wave3:
-                StartWave3();
-                break;
-
-            case GameState.ItemSelect3:
-                OpenItemSelect3();
-                break;
-
-            case GameState.Wave4:
-                StartWave4();
+            case GameState.ItemSelect:
+                OpenItemSelection(GetCurrentItemPhase());
                 break;
 
             case GameState.Clear:
@@ -150,6 +121,30 @@ public class GameManager : MonoBehaviour
                 GameOver();
                 break;
         }
+    }
+
+    private void StartPlaying()
+    {
+        Time.timeScale = 1f;
+        isPaused = false;
+
+        if (itemSelectionPanel != null)
+            itemSelectionPanel.SetActive(false);
+
+        if (gamePausedPanel != null)
+            gamePausedPanel.SetActive(false);
+
+        player.SetControlEnabled(true);
+
+        Debug.Log($"Playing Start - Level {currentLevel}");
+    }
+
+    private ItemPhase GetCurrentItemPhase()
+    {
+        if (currentLevel <= 2)
+            return ItemPhase.Base;
+
+        return ItemPhase.Upgrade;
     }
 
     private void OpenItemSelection(ItemPhase phase)
@@ -175,63 +170,21 @@ public class GameManager : MonoBehaviour
         {
             if (candidates.Count == 0) break;
 
+            int randomIndex = Random.Range(0, candidates.Count);
+            ItemData selectedItem = candidates[randomIndex];
             // 임시
-            // int randomIndex = Random.Range(0, candidates.Count);
-            // ItemData selectedItem = candidates[randomIndex];
-            ItemData selectedItem = candidates[i];
+            // ItemData selectedItem = candidates[i];
 
             currentChoices.Add(selectedItem);
 
             // 임시
-            candidates.RemoveAt(i);
-            // candidates.RemoveAt(randomIndex);
+            // candidates.RemoveAt(i);
+            candidates.RemoveAt(randomIndex);
 
             itemTitleTexts[i].text = selectedItem.itemName;
             itemDescriptionTexts[i].text = selectedItem.description;
             itemIconImages[i].sprite = selectedItem.icon;
         }
-    }
-
-    public void CollectGoalItem()
-    {
-        if (currentState != GameState.Wave1) return;
-
-        collectedItemCount++;
-        Debug.Log($"Goal Item: {collectedItemCount}/{requiredItemCount}");
-
-        // TMP: 임시
-        // if (collectedItemCount >= requiredItemCount)
-        // {
-        //     ChangeState(GameState.ItemSelect1);
-        // }
-    }
-
-    private void StartWave1()
-    {
-        Time.timeScale = 1f;
-        player.SetControlEnabled(true);
-        collectedItemCount = 0;
-        Debug.Log("Wave 1 Start");
-    }
-
-    private void StartWave2()
-    {
-        Time.timeScale = 1f;
-        player.SetControlEnabled(true);
-        Debug.Log("Wave 2 Start");
-    }
-    private void StartWave3()
-    {
-        Time.timeScale = 1f;
-        player.SetControlEnabled(true);
-        Debug.Log("Wave 3 Start");
-    }
-
-    private void StartWave4()
-    {
-        Time.timeScale = 1f;
-        player.SetControlEnabled(true);
-        Debug.Log("Wave 4 Start");
     }
 
     private void Clear()
@@ -302,51 +255,37 @@ public class GameManager : MonoBehaviour
             gamePausedPanel.SetActive(false);
     }
 
-    private void OpenItemSelect1()
-    {
-        Debug.Log("Item Select 1");
-        OpenItemSelection(ItemPhase.Base);
-    }
-
-    private void OpenItemSelect2()
-    {
-        Debug.Log("Item Select 2");
-        OpenItemSelection(ItemPhase.Base);
-    }
-    private void OpenItemSelect3()
-    {
-        Debug.Log("Item Select 3");
-        OpenItemSelection(ItemPhase.Upgrade);
-    }
-
     public void SelectItem(int index)
     {
-        if (index < 0 || index >= currentChoices.Count)
-        {
-            return;
-        }
+        if (index < 0 || index >= currentChoices.Count) return;
 
         ItemData selectedItem = currentChoices[index];
 
         ApplyItem(selectedItem);
 
-        if (playerStats != null)
-            playerStats.ResetExp();
-
         itemSelectionPanel.SetActive(false);
 
-        if (currentState == GameState.ItemSelect1)
-        {
-            ChangeState(GameState.Wave2);
-        }
-        else if (currentState == GameState.ItemSelect2)
-        {
-            ChangeState(GameState.Wave3);
-        }
-        else if (currentState == GameState.ItemSelect3)
-        {
-            ChangeState(GameState.Wave4);
-        }
+        LevelUp();
+
+        if (HasClearedAllLevels())
+            ChangeState(GameState.Clear);
+        else
+            ChangeState(GameState.Playing);
+    }
+
+    private void LevelUp()
+    {
+        currentLevel++;
+
+        if (playerStats != null)
+        playerStats.ResetExp();
+
+        SetupCurrentLevelExp();
+    }
+
+    private bool HasClearedAllLevels()
+    {
+        return currentLevel > expRequirementsByLevel.Length;
     }
 
     private void ApplyItem(ItemData item)

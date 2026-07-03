@@ -2135,10 +2135,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6041900504551013084, guid: 0770af5825aa6be4ea4bd3a6292df145, type: 3}
-      propertyPath: keyboardOrbitObject
-      value: 
-      objectReference: {fileID: 2023190063}
     - target: {fileID: 6348225712768927109, guid: 0770af5825aa6be4ea4bd3a6292df145, type: 3}
       propertyPath: mousePoint
       value: 
@@ -4950,7 +4946,6 @@ MonoBehaviour:
   - {fileID: 1286897599}
   synergies: []
   currentState: 0
-  requiredItemCount: 3
   itemSelectionPanel: {fileID: 1323713828}
   player: {fileID: 1109714411}
   playerItemController: {fileID: 1109714410}
@@ -4958,6 +4953,7 @@ MonoBehaviour:
   gamePausedPanel: {fileID: 809705849}
   clearPanel: {fileID: 2104377678}
   playerStats: {fileID: 1109714416}
+  expRequirementsByLevel: 6400000096000000dc0000002c010000
 --- !u!1 &1795237131
 GameObject:
   m_ObjectHideFlags: 0
@@ -6302,11 +6298,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealItem
   healAmount: 20
---- !u!1 &2023190063 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3438639458954854433, guid: 0770af5825aa6be4ea4bd3a6292df145, type: 3}
-  m_PrefabInstance: {fileID: 761267016}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2079791121
 GameObject:
   m_ObjectHideFlags: 0
@@ -6843,6 +6834,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy01
       objectReference: {fileID: 0}
+    - target: {fileID: 6593982281977657623, guid: e532471f3967c494f8c3b5ca88fc81a3, type: 3}
+      propertyPath: expReward
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6858,7 +6853,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 141409674363383090, guid: ff5be987742b44bcda070531d3474295, type: 3}
       propertyPath: expReward
-      value: 50
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4986278685467013610, guid: ff5be987742b44bcda070531d3474295, type: 3}
       propertyPath: m_Name

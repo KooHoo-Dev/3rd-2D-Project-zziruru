@@ -161,7 +161,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   maxHp: 3
-  knockbackDistance: 0.15
+  knockbackSpeed: 8
+  knockbackDuration: 0.08
+  expReward: 50
 --- !u!114 &8133662741036345706
 MonoBehaviour:
   m_ObjectHideFlags: 0
