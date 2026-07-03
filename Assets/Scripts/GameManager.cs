@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private int[] expRequirementsByLevel = { 100, 150, 220, 300 };
     private int currentLevel = 1;
+    private float playTime;
+    public float PlayTime => playTime;
 
     private void OnEnable()
     {
@@ -80,6 +82,16 @@ public class GameManager : MonoBehaviour
     {
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
             TogglePause();
+
+        UpdatePlayTime();
+    }
+
+    private void UpdatePlayTime()
+    {
+        if (currentState != GameState.Playing) return;
+        if (isPaused) return;
+
+        playTime += Time.deltaTime;
     }
 
     private void HandleExpFull()
@@ -278,7 +290,7 @@ public class GameManager : MonoBehaviour
         currentLevel++;
 
         if (playerStats != null)
-        playerStats.ResetExp();
+            playerStats.ResetExp();
 
         SetupCurrentLevelExp();
     }

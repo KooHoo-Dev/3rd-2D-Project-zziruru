@@ -163,7 +163,7 @@ MonoBehaviour:
   maxHp: 3
   knockbackSpeed: 8
   knockbackDuration: 0.08
-  expReward: 50
+  expReward: 15
 --- !u!114 &8133662741036345706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce3193d627a24428da7d3494e1e3ac7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBodyDamage
-  damage: 10
+  damage: 20
   damageInterval: 1
 --- !u!60 &7544925906379881600
 PolygonCollider2D:
