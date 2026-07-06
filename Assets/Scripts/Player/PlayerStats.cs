@@ -39,6 +39,16 @@ public class PlayerStats : MonoBehaviour
         OnStatsChanged?.Invoke();
     }
 
+    public void IncreaseMaxHp(int amount)
+    {
+        if (isDead) return;
+
+        maxHp += amount;
+        currentHp += amount;
+
+        OnStatsChanged?.Invoke();
+    }
+
     public void Heal(int amount)
     {
         if (isDead) return;

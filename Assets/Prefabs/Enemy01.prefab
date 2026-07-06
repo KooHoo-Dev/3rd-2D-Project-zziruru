@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 6593982281977657623}
   - component: {fileID: 5464618303541674959}
   - component: {fileID: 9072297494058559063}
+  - component: {fileID: -286260248948426814}
+  - component: {fileID: 6342260620214764905}
   m_Layer: 0
   m_Name: Enemy01
   m_TagString: Untagged
@@ -33,7 +35,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.67, y: 0.67, z: 0.67}
+  m_LocalScale: {x: 0.37, y: 0.37000003, z: 0.37000003}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -158,6 +160,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60ca1e8a3620243d3bfc2fc94a9495e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy01Movement
+  targetCamera: {fileID: 0}
+  screenPadding: 0.5
+  enterSpeed: 2
   calmSpeed: 1.2
   calmMoveDistance: 1.5
   calmWaitMin: 3
@@ -180,6 +185,8 @@ MonoBehaviour:
   knockbackSpeed: 8
   knockbackDuration: 0.08
   expReward: 5
+  healItemPrefab: {fileID: 2036087943876460915, guid: f6079a395bc6a4de0b847fa3ab81aa12, type: 3}
+  healItemDropChance: 0.1
 --- !u!114 &5464618303541674959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,3 +276,33 @@ PolygonCollider2D:
       - {x: 0.51716554, y: 2.4663184}
       - {x: 0.5219556, y: 2.8329334}
   m_UseDelaunayMesh: 1
+--- !u!114 &-286260248948426814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4324232782051968489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce3193d627a24428da7d3494e1e3ac7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBodyDamage
+  damage: 5
+  damageInterval: 1
+--- !u!114 &6342260620214764905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4324232782051968489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d00cdb9ba1597454d83cc7d15ce32492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::YSort
+  spriteRenderer: {fileID: 0}
+  sortingGroup: {fileID: 0}
+  sortingOffset: 0
+  precision: 100

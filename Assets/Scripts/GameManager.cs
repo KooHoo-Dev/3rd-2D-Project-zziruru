@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -34,13 +35,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject gamePausedPanel;
     [SerializeField] private GameObject clearPanel;
     [SerializeField] private PlayerStats playerStats;
-
+    [SerializeField] private EnemySpawner enemySpawner;
     private bool isPaused;
 
     [SerializeField] private int[] expRequirementsByLevel = { 100, 150, 220, 300 };
     private int currentLevel = 1;
     private float playTime;
     public float PlayTime => playTime;
+    public int CurrentLevel => currentLevel;
+    public event Action<int> OnLevelChanged;
 
     private void OnEnable()
     {
@@ -58,6 +61,10 @@ public class GameManager : MonoBehaviour
     {
         currentLevel = 1;
         SetupCurrentLevelExp();
+
+        if (enemySpawner != null)
+            enemySpawner.SetLevel(currentLevel);
+
         ChangeState(GameState.Playing);
 
         if (gameOverPanel != null)
@@ -182,7 +189,7 @@ public class GameManager : MonoBehaviour
         {
             if (candidates.Count == 0) break;
 
-            int randomIndex = Random.Range(0, candidates.Count);
+            int randomIndex = UnityEngine.Random.Range(0, candidates.Count);
             ItemData selectedItem = candidates[randomIndex];
             // 임시
             // ItemData selectedItem = candidates[i];
@@ -288,6 +295,10 @@ public class GameManager : MonoBehaviour
     private void LevelUp()
     {
         currentLevel++;
+        OnLevelChanged?.Invoke(currentLevel);
+
+        if (enemySpawner != null)
+            enemySpawner.SetLevel(currentLevel);
 
         if (playerStats != null)
             playerStats.ResetExp();

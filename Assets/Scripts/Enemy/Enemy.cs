@@ -16,6 +16,10 @@ public class Enemy : MonoBehaviour
 
     public bool IsKnockbacking => knockbackTimer > 0f;
     [SerializeField] private int expReward = 20;
+    private bool isDead;
+    [SerializeField] private GameObject healItemPrefab;
+    [SerializeField, Range(0f, 1f)] private float healItemDropChance = 0.1f;
+
 
     private void Awake()
     {
@@ -35,6 +39,8 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(int damage, Vector2 hitDirection)
     {
+        if (isDead) return;
+
         currentHp -= damage;
 
         if (hitFeedback != null)
@@ -47,7 +53,10 @@ public class Enemy : MonoBehaviour
         }
 
         if (currentHp <= 0)
+        {
+            isDead = true;
             StartCoroutine(DieRoutine());
+        }
     }
 
     private void FixedUpdate()
@@ -71,10 +80,20 @@ public class Enemy : MonoBehaviour
         if (hitFeedback != null)
             yield return hitFeedback.PlayDeathFade();
 
+        TryDropHealItem(transform.position);
+
         PlayerStats playerStats = FindFirstObjectByType<PlayerStats>();
         if (playerStats != null)
             playerStats.AddExp(expReward);
 
         Destroy(gameObject);
+    }
+
+    private void TryDropHealItem(Vector3 dropPosition)
+    {
+        if (healItemPrefab == null) return;
+        if (Random.value > healItemDropChance) return;
+
+        Instantiate(healItemPrefab, dropPosition, Quaternion.identity);
     }
 }

@@ -11,18 +11,26 @@ public class GameUI : MonoBehaviour
     [SerializeField] private TMP_Text expValueText;
     [SerializeField] private GameManager gameManager;
     [SerializeField] private TMP_Text timeText;
+    [SerializeField] private TMP_Text levelText;
 
     private void Start()
     {
         playerStats.OnStatsChanged += UpdateUI;
+        if (gameManager != null)
+            gameManager.OnLevelChanged += UpdateLevelText;
+
         UpdateUI();
+        if (gameManager != null)
+            UpdateLevelText(gameManager.CurrentLevel);
     }
 
     private void OnDestroy()
     {
-        if (playerStats == null) return;
+        if (playerStats != null)
+            playerStats.OnStatsChanged -= UpdateUI;
 
-        playerStats.OnStatsChanged -= UpdateUI;
+        if (gameManager != null)
+            gameManager.OnLevelChanged -= UpdateLevelText;
     }
 
     private void Update()
@@ -51,5 +59,11 @@ public class GameUI : MonoBehaviour
 
         if (expValueText != null)
             expValueText.text = $"{playerStats.CurrentExp} / {playerStats.MaxExp}";
+    }
+
+    private void UpdateLevelText(int level)
+    {
+        if (levelText != null)
+            levelText.text = $"Lv. {level}";
     }
 }

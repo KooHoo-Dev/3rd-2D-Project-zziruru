@@ -17,8 +17,9 @@ GameObject:
   - component: {fileID: 8798723969708785759}
   - component: {fileID: 6774871792410433871}
   - component: {fileID: 7544925906379881600}
+  - component: {fileID: 409603088157657848}
   m_Layer: 0
-  m_Name: Enemy02
+  m_Name: Boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,7 +35,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.78, y: 0.03, z: 0}
-  m_LocalScale: {x: 2.87, y: 2.87, z: 2.87}
+  m_LocalScale: {x: 1.8600001, y: 1.8600001, z: 1.8600001}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1220532371435271225}
@@ -164,6 +165,8 @@ MonoBehaviour:
   knockbackSpeed: 8
   knockbackDuration: 0.08
   expReward: 15
+  healItemPrefab: {fileID: 0}
+  healItemDropChance: 0.1
 --- !u!114 &8133662741036345706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,6 +295,22 @@ PolygonCollider2D:
       - {x: 0.12047377, y: 0.47621566}
       - {x: 0.14218612, y: 0.50055426}
   m_UseDelaunayMesh: 1
+--- !u!114 &409603088157657848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4986278685467013610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d00cdb9ba1597454d83cc7d15ce32492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::YSort
+  spriteRenderer: {fileID: 0}
+  sortingGroup: {fileID: 0}
+  sortingOffset: 0
+  precision: 100
 --- !u!1 &6649086644513557403
 GameObject:
   m_ObjectHideFlags: 0
