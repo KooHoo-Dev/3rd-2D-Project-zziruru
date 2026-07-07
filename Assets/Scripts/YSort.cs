@@ -22,7 +22,7 @@ public class YSort : MonoBehaviour
     private void LateUpdate()
     {
         int order = Mathf.RoundToInt(-transform.position.y * precision) + sortingOffset;
-
+        
         if (sortingGroup != null)
             sortingGroup.sortingOrder = order;
         else if (spriteRenderer != null)

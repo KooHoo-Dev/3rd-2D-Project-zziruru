@@ -1,0 +1,33 @@
+{
+  "Rects": null,
+  "Def": {
+    "__cHei": 2,
+    "__cWid": 2,
+    "cachedPixelData": {
+      "opaqueTiles": "1110",
+      "averageColors": "f999f999f9990000"
+    },
+    "customData": [
+
+    ],
+    "embedAtlas": null,
+    "enumTags": [
+
+    ],
+    "identifier": "RoadTiles",
+    "padding": 0,
+    "pxHei": 64,
+    "pxWid": 64,
+    "relPath": "Tilesets/RoadTiles.png",
+    "savedSelections": [
+
+    ],
+    "spacing": 0,
+    "tags": [
+
+    ],
+    "tagsSourceEnumUid": null,
+    "tileGridSize": 32,
+    "uid": 17
+  }
+}

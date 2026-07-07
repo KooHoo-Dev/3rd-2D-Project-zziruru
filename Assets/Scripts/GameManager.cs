@@ -36,9 +36,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject clearPanel;
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private EnemySpawner enemySpawner;
+
+    [SerializeField] private TMP_Text clearTimeText;
     private bool isPaused;
 
     [SerializeField] private int[] expRequirementsByLevel = { 100, 150, 220, 300 };
+    [SerializeField] private int clearLevel = 4;
     private int currentLevel = 1;
     private float playTime;
     public float PlayTime => playTime;
@@ -104,6 +107,13 @@ public class GameManager : MonoBehaviour
     private void HandleExpFull()
     {
         if (currentState != GameState.Playing) return;
+
+        if (currentLevel + 1 >= clearLevel)
+        {
+            LevelUp();
+            ChangeState(GameState.Clear);
+            return;
+        }
 
         ChangeState(GameState.ItemSelect);
     }
@@ -179,10 +189,15 @@ public class GameManager : MonoBehaviour
 
         foreach (ItemData item in allItems)
         {
-            if (item.phase == phase)
-            {
-                candidates.Add(item);
-            }
+            if (item.phase != phase) continue;
+
+            // 나중에 같은 아이템을 여러 번 뽑아서 강화하는 구조 Update item
+            bool isAlreadyOwnedBaseItem = item.phase == ItemPhase.Base &&
+                playerItemController.HasAcquiredEffect(item.effectType);
+
+            if (isAlreadyOwnedBaseItem) continue;
+
+            candidates.Add(item);
         }
 
         for (int i = 0; i < 3; i++)
@@ -206,6 +221,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // TODO: GameUI 랑 중복됨. 공통화
+    private string FormatTime(float time)
+    {
+        int totalSeconds = Mathf.FloorToInt(time);
+        int minutes = totalSeconds / 60;
+        int seconds = totalSeconds % 60;
+
+        return $"{minutes:00}:{seconds:00}";
+    }
+
     private void Clear()
     {
         Time.timeScale = 0f;
@@ -216,6 +241,7 @@ public class GameManager : MonoBehaviour
 
         if (clearPanel != null)
         {
+            clearTimeText.text = $"Time : {FormatTime(playTime)}";
             clearPanel.SetActive(true);
             clearPanel.transform.SetAsLastSibling();
         }
@@ -308,7 +334,7 @@ public class GameManager : MonoBehaviour
 
     private bool HasClearedAllLevels()
     {
-        return currentLevel > expRequirementsByLevel.Length;
+        return currentLevel >= clearLevel;
     }
 
     private void ApplyItem(ItemData item)

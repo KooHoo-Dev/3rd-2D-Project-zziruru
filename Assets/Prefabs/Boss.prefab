@@ -309,7 +309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::YSort
   spriteRenderer: {fileID: 0}
   sortingGroup: {fileID: 0}
-  sortingOffset: 0
+  sortingOffset: 2000
   precision: 100
 --- !u!1 &6649086644513557403
 GameObject:

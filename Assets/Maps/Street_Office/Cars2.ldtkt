@@ -1,0 +1,33 @@
+{
+  "Rects": null,
+  "Def": {
+    "__cHei": 8,
+    "__cWid": 8,
+    "cachedPixelData": {
+      "opaqueTiles": "0000000000000000000000000000000000000000000000000000000000000000",
+      "averageColors": "000000000000000000000000000000003742a788c78966773467a699c79966887422851175117322723481467147733300000000000000000000000000000000000000000000000000000000000000003970a7a8c7a867873443a598c59865877542876178717432733382437243733200000000000000000000000000000000"
+    },
+    "customData": [
+
+    ],
+    "embedAtlas": null,
+    "enumTags": [
+
+    ],
+    "identifier": "Cars2",
+    "padding": 0,
+    "pxHei": 256,
+    "pxWid": 256,
+    "relPath": "Tilesets/Cars.png",
+    "savedSelections": [
+
+    ],
+    "spacing": 0,
+    "tags": [
+
+    ],
+    "tagsSourceEnumUid": null,
+    "tileGridSize": 32,
+    "uid": 8
+  }
+}

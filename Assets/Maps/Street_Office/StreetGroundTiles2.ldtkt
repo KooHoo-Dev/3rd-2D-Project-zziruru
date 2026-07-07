@@ -1,0 +1,33 @@
+{
+  "Rects": null,
+  "Def": {
+    "__cHei": 3,
+    "__cWid": 3,
+    "cachedPixelData": {
+      "opaqueTiles": "111111111",
+      "averageColors": "f555f555f555f555f555f555f444f444f444"
+    },
+    "customData": [
+
+    ],
+    "embedAtlas": null,
+    "enumTags": [
+
+    ],
+    "identifier": "StreetGroundTiles2",
+    "padding": 0,
+    "pxHei": 96,
+    "pxWid": 96,
+    "relPath": "Tilesets/StreetGroundTiles.png",
+    "savedSelections": [
+
+    ],
+    "spacing": 0,
+    "tags": [
+
+    ],
+    "tagsSourceEnumUid": null,
+    "tileGridSize": 32,
+    "uid": 3
+  }
+}

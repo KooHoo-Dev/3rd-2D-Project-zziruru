@@ -93,6 +93,20 @@ public class Player : MonoBehaviour
         lastAttackTime = Time.time;
     }
 
+    public void TeleportTo(Vector2 position)
+    {
+        moveInput = Vector2.zero;
+        knockbackTimer = 0f;
+
+        rb.linearVelocity = Vector2.zero;
+        rb.angularVelocity = 0f;
+
+        rb.position = position;
+        transform.position = position;
+
+        animator.SetBool("IsMoving", false);
+    }
+
     private void FixedUpdate()
     {
         if (isDead) return;

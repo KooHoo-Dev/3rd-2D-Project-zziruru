@@ -18,14 +18,32 @@ public class SpawnEntry
 
 public class EnemySpawner : MonoBehaviour
 {
+    private enum SpawnSide
+    {
+        Left,
+        Right,
+        Top,
+        Bottom
+    }
+
     [SerializeField] private Camera targetCamera;
     [SerializeField] private float spawnMargin = 1.5f;
     [SerializeField] private SpawnEntry[] spawnEntries;
+
+    [SerializeField] private LayerMask collisionLayer;
+    [SerializeField] private BoxCollider2D mapBounds;
+    [SerializeField] private float spawnCheckRadius = 0.35f;
+    [SerializeField] private int maxSpawnAttempts = 100;
 
     void Start()
     {
         if (targetCamera == null)
             targetCamera = Camera.main;
+    }
+
+    public void SetMapBounds(BoxCollider2D newMapBounds)
+    {
+        mapBounds = newMapBounds;
     }
 
     public void SetLevel(int level)
@@ -48,7 +66,7 @@ public class EnemySpawner : MonoBehaviour
         if (entry.enemyPrefab == null) return;
         if (targetCamera == null) return;
 
-        Vector2 spawnPosition = GetSpawnPositionOutsideCamera();
+        if (!TryGetSpawnPosition(out Vector2 spawnPosition)) return;
 
         GameObject enemy = Instantiate(
             entry.enemyPrefab,
@@ -59,40 +77,111 @@ public class EnemySpawner : MonoBehaviour
         entry.spawnedEnemies.Add(enemy);
     }
 
-    private Vector2 GetSpawnPositionOutsideCamera()
+    private bool TryGetSpawnPosition(out Vector2 spawnPosition)
+    {
+        for (int i = 0; i < maxSpawnAttempts; i++)
+        {
+            if (!TryGetSpawnPositionOutsideCamera(out Vector2 candidate))
+                break;
+
+            bool isBlocked = Physics2D.OverlapCircle(
+                candidate,
+                spawnCheckRadius,
+                collisionLayer
+            ) != null;
+
+            if (!isBlocked)
+            {
+                spawnPosition = candidate;
+                return true;
+            }
+        }
+
+        spawnPosition = Vector2.zero;
+        return false;
+    }
+
+    private bool TryGetSpawnPositionOutsideCamera(out Vector2 spawnPosition)
     {
         float halfHeight = targetCamera.orthographicSize;
         float halfWidth = halfHeight * targetCamera.aspect;
 
         Vector2 center = targetCamera.transform.position;
+        Bounds bounds = mapBounds.bounds;
 
-        int side = Random.Range(0, 4);
+        float minX = bounds.min.x + spawnCheckRadius;
+        float maxX = bounds.max.x - spawnCheckRadius;
+        float minY = bounds.min.y + spawnCheckRadius;
+        float maxY = bounds.max.y - spawnCheckRadius;
+
+        float cameraLeft = center.x - halfWidth;
+        float cameraRight = center.x + halfWidth;
+        float cameraBottom = center.y - halfHeight;
+        float cameraTop = center.y + halfHeight;
+
+        List<SpawnSide> validSides = new();
+
+        if (cameraLeft - spawnMargin >= minX)
+            validSides.Add(SpawnSide.Left);
+
+        if (cameraRight + spawnMargin <= maxX)
+            validSides.Add(SpawnSide.Right);
+
+        if (cameraTop + spawnMargin <= maxY)
+            validSides.Add(SpawnSide.Top);
+
+        if (cameraBottom - spawnMargin >= minY)
+            validSides.Add(SpawnSide.Bottom);
+
+        if (validSides.Count == 0)
+        {
+            spawnPosition = Vector2.zero;
+            return false;
+        }
+
+        SpawnSide side = validSides[Random.Range(0, validSides.Count)];
 
         switch (side)
         {
-            case 0: // Left
-                return new Vector2(
-                    center.x - halfWidth - spawnMargin,
-                    Random.Range(center.y - halfHeight, center.y + halfHeight)
+            case SpawnSide.Left:
+                spawnPosition = new Vector2(
+                    cameraLeft - spawnMargin,
+                    Random.Range(
+                        Mathf.Max(cameraBottom, minY),
+                        Mathf.Min(cameraTop, maxY)
+                    )
                 );
+                return true;
 
-            case 1: // Right
-                return new Vector2(
-                    center.x + halfWidth + spawnMargin,
-                    Random.Range(center.y - halfHeight, center.y + halfHeight)
+            case SpawnSide.Right:
+                spawnPosition = new Vector2(
+                    cameraRight + spawnMargin,
+                    Random.Range(
+                        Mathf.Max(cameraBottom, minY),
+                        Mathf.Min(cameraTop, maxY)
+                    )
                 );
+                return true;
 
-            case 2: // Top
-                return new Vector2(
-                    Random.Range(center.x - halfWidth, center.x + halfWidth),
-                    center.y + halfHeight + spawnMargin
+            case SpawnSide.Top:
+                spawnPosition = new Vector2(
+                    Random.Range(
+                        Mathf.Max(cameraLeft, minX),
+                        Mathf.Min(cameraRight, maxX)
+                    ),
+                    cameraTop + spawnMargin
                 );
+                return true;
 
-            default: // Bottom
-                return new Vector2(
-                    Random.Range(center.x - halfWidth, center.x + halfWidth),
-                    center.y - halfHeight - spawnMargin
+            default:
+                spawnPosition = new Vector2(
+                    Random.Range(
+                        Mathf.Max(cameraLeft, minX),
+                        Mathf.Min(cameraRight, maxX)
+                    ),
+                    cameraBottom - spawnMargin
                 );
+                return true;
         }
     }
 

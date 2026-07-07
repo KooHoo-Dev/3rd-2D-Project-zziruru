@@ -1,0 +1,33 @@
+{
+  "Rects": null,
+  "Def": {
+    "__cHei": 2,
+    "__cWid": 9,
+    "cachedPixelData": {
+      "opaqueTiles": "000000110000000111",
+      "averageColors": "bba81bbc09870b9513363bbcfa64fdb9a74419aa26780667578929566dddf889fb86f743"
+    },
+    "customData": [
+
+    ],
+    "embedAtlas": null,
+    "enumTags": [
+
+    ],
+    "identifier": "OfficeTile",
+    "padding": 0,
+    "pxHei": 64,
+    "pxWid": 288,
+    "relPath": "Tilesets/spritesheet.png",
+    "savedSelections": [
+
+    ],
+    "spacing": 0,
+    "tags": [
+
+    ],
+    "tagsSourceEnumUid": null,
+    "tileGridSize": 32,
+    "uid": 12
+  }
+}

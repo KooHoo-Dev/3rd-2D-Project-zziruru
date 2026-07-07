@@ -28,18 +28,67 @@ public class Enemy01Movement : MonoBehaviour
     private Enemy enemy;
     private bool isEntering = true;
 
+    [SerializeField] private float collisionSkin = 0.03f;
+
+    private ContactFilter2D movementFilter;
+    private readonly RaycastHit2D[] movementHits = new RaycastHit2D[8];
+    [SerializeField] private LayerMask collisionLayer;
+
     private void Awake()
     {
         enemy = GetComponent<Enemy>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        movementFilter = new ContactFilter2D();
+        movementFilter.useTriggers = false;
+        movementFilter.SetLayerMask(collisionLayer);
+    }
+
+    private bool TryMoveTo(Vector2 nextPosition)
+    {
+        Vector2 move = nextPosition - rb.position;
+        float distance = move.magnitude;
+
+        if (distance <= 0.001f)
+            return true;
+
+        int hitCount = rb.Cast(
+            move.normalized,
+            movementFilter,
+            movementHits,
+            distance + collisionSkin
+        );
+
+        if (HasBlockingHit(hitCount))
+            return false;
+
+        rb.MovePosition(nextPosition);
+        return true;
+    }
+
+    private bool HasBlockingHit(int hitCount)
+    {
+        for (int i = 0; i < hitCount; i++)
+        {
+            Collider2D hit = movementHits[i].collider;
+            if (hit == null) continue;
+
+            // 플레이어/다른 적은 "맵 벽"이 아니니까 막힌 지형으로 보지 않음
+            if (hit.GetComponentInParent<Player>() != null) continue;
+            if (hit.GetComponentInParent<Enemy>() != null) continue;
+
+            return true;
+        }
+
+        return false;
     }
 
     private void UpdateFlip(Vector2 direction)
     {
         if (spriteRenderer == null) return;
-        if (Mathf.Abs(direction.x) <= 0.01f) return;
+        if (Mathf.Abs(direction.x) <= 0.1f) return;
 
         spriteRenderer.flipX = direction.x < 0f;
     }
@@ -109,17 +158,21 @@ public class Enemy01Movement : MonoBehaviour
         if (panicDirectionTimer <= 0f)
             SetupPanicMoveDirection();
 
-        UpdateFlip(panicDirection);
+        Vector2 currentPosition = rb.position;
 
         Vector2 nextPosition = rb.position + panicDirection * panicSpeed * Time.fixedDeltaTime;
 
-        if (!IsInsideCameraBounds(nextPosition))
-        {
-            nextPosition = ClampToCameraBounds(nextPosition);
-            SetupPanicMoveDirection();
-        }
+        Vector2 beforePosition = rb.position;
 
-        rb.MovePosition(nextPosition);
+        if (!TryMoveTo(nextPosition))
+        {
+            SetupPanicMoveDirection();
+            return;
+        }
+        
+        Vector2 actualMove = rb.position - beforePosition;  
+        UpdateFlip(panicDirection);
+
         isMoving = true;
     }
 
@@ -129,16 +182,25 @@ public class Enemy01Movement : MonoBehaviour
         {
             Vector2 currentPosition = rb.position;
 
-            Vector2 moveDirection = targetPosition - currentPosition;
-            UpdateFlip(moveDirection);
-
             Vector2 nextPosition = Vector2.MoveTowards(
                 currentPosition,
                 targetPosition,
                 calmSpeed * Time.fixedDeltaTime
             );
 
-            rb.MovePosition(nextPosition);
+            Vector2 beforePosition = rb.position;
+
+            if (!TryMoveTo(nextPosition))
+            {
+                PickNewCalmTarget();
+                isMoving = true;
+                return;
+            }
+
+            Vector2 actualMove = rb.position - beforePosition;
+            UpdateFlip(actualMove);
+
+            // rb.MovePosition(nextPosition);
 
             if (Vector2.Distance(nextPosition, targetPosition) <= 0.05f)
             {
@@ -160,9 +222,7 @@ public class Enemy01Movement : MonoBehaviour
     private void PickNewCalmTarget()
     {
         Vector2 randomDirection = Random.insideUnitCircle.normalized;
-        Vector2 rawTargetPosition = rb.position + randomDirection * calmMoveDistance;
-
-        targetPosition = ClampToCameraBounds(rawTargetPosition);
+        targetPosition = rb.position + randomDirection * calmMoveDistance;
     }
 
     public void StartPanic()
@@ -181,16 +241,24 @@ public class Enemy01Movement : MonoBehaviour
     {
         Vector2 currentPosition = rb.position;
 
-        Vector2 moveDirection = targetPosition - currentPosition;
-        UpdateFlip(moveDirection);
-
         Vector2 nextPosition = Vector2.MoveTowards(
             currentPosition,
             targetPosition,
             enterSpeed * Time.fixedDeltaTime
         );
 
-        rb.MovePosition(nextPosition);
+        Vector2 beforePosition = rb.position;
+
+        // rb.MovePosition(nextPositon);
+        if (!TryMoveTo(nextPosition))
+        {
+            isEntering = false;
+            PickNewCalmTarget();
+            return;
+        }
+
+        Vector2 actualMove = rb.position - beforePosition;
+        UpdateFlip(actualMove);
         isMoving = true;
 
         if (Vector2.Distance(nextPosition, targetPosition) <= 0.05f)
